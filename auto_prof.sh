@@ -25,10 +25,10 @@ echo "Enter a file name:"
 read PDF_NAME
 echo "Try to generate profiled file as $PDF_NAME.pdf"
 
-# make clean
-# make
-# ./$EXEC_FILE
-# mkdir profile_result > /dev/null 2>&1
-# gprof $EXEC_FILE gmon.out > /profile_result/$PDF_NAME.txt
-# python3 -m gprof2dot -f gprof /profile_result/$PDF_NAME.txt | dot -Tpdf -o /profile_result/$PDF_NAME.pdf
+make clean
+make
+./$EXEC_FILE
+mkdir profile_result > /dev/null 2>&1
+gprof $EXEC_FILE gmon.out > /profile_result/$PDF_NAME.txt
+python3 -m gprof2dot -f gprof /profile_result/$PDF_NAME.txt | dot -Tpdf -o /profile_result/$PDF_NAME.pdf
 
