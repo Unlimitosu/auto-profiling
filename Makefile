@@ -7,7 +7,7 @@ SRC     = $(wildcard *.c)
 # 각 .c 파일에 대해 build 디렉토리 내 .o 파일을 생성
 OBJ     = $(patsubst %.c, build/%.o, $(SRC))
 # 최종 실행 파일은 build 디렉토리 내에 생성
-TARGET  = build/main
+TARGET  = build/main.out
 
 .PHONY: all clean
 
