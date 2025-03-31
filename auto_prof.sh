@@ -1,7 +1,12 @@
 #!/bin/bash
 
 BUILD_DIR="./build"
+PROFILE_RESDIR="./profile_result"
 EXEC_FILE=""
+
+mkdir $BUILD_DIR > /dev/null 2>&1
+make clean
+make
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # macOS: 확장자가 없는 실행 파일 우선, 없으면 *.out 파일 사용
@@ -25,10 +30,9 @@ echo "Enter a file name:"
 read PDF_NAME
 echo "Try to generate profiled file as $PDF_NAME.pdf"
 
-make clean
-make
 ./$EXEC_FILE
 mkdir profile_result > /dev/null 2>&1
-gprof $EXEC_FILE gmon.out > /profile_result/$PDF_NAME.txt
-python3 -m gprof2dot -f gprof /profile_result/$PDF_NAME.txt | dot -Tpdf -o /profile_result/$PDF_NAME.pdf
-
+mv -f gmon.out $PROFILE_RESDIR  # force move
+gprof $EXEC_FILE $PROFILE_RESDIR/gmon.out > $PROFILE_RESDIR/$PDF_NAME.txt
+python3 -m gprof2dot -f prof $PROFILE_RESDIR/$PDF_NAME.txt | dot -Tpdf -o $PROFILE_RESDIR/$PDF_NAME.pdf
+echo "Generated $PROFILE_RESDIR/$PDF_NAME.pdf"
